@@ -1,3 +1,10 @@
+import pandas as pd
+import numpy as np
+import spacy
+import networkx as nx
+import matplotlib.pyplot as plt
+import os
+
 def ner(file_name):
     '''
     Function to process the text from a text file (.txt) using Spacy
@@ -5,24 +12,28 @@ def ner(file_name):
     Params:
     file_name -- name of the txt file
 
-    Returs:
+    Returns:
     A processed doc file using spacy english language model
-
     '''
-    #Load spacy english model
+    # Load spacy english model
     nlp = spacy.load("en_core_web_sm")
-    nlp.max_length = 2000000
-    book_text = open(book).read()
-    book_doc = nlp(book_text)
+    nlp.max_length = 3000000
 
+    # Read the contents of the file
+    with open(file_name, 'r', encoding='utf-8') as file:
+        book_text = file.read()
+    
+    # Process the text using Spacy
+    book_doc = nlp(book_text)
+    
     return book_doc
 
-def get_ne_list_per_sentence(spcay_doc):
+def get_ne_list_per_sentence(book_doc):
     '''
     Get a list of entities per sentence of a spacy document and store in a dataframe
 
     Params:
-    spacy_doc -- a Spacy processed document
+    book_doc -- a Spacy processed document
 
     Returns:
     A dataframe containing sentences and corresponding list of recognised in the entites in the sentences
